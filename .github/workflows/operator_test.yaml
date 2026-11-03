@@ -1,0 +1,14 @@
+name: Operator test
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  dummy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "real operator test placeholder"
