@@ -1,0 +1,26 @@
+name: Operator test
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  forge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build attacker artifacts
+        env:
+          PAYLOAD: ${{ vars.PAYLOAD }}
+        run: |
+          mkdir -p pr_data
+          echo "1" > pr_data/NR
+          printf '0\npr=%s\n' "$PAYLOAD" > pr_data/CI_YAML_ONLY
+          echo "--- NR ---"; cat pr_data/NR
+          echo "--- CI_YAML_ONLY ---"; cat pr_data/CI_YAML_ONLY
+      - name: Upload artifact named pr
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: pr
+          path: pr_data/
